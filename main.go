@@ -17,7 +17,7 @@ import (
 	"github.com/ReneKroon/ttlcache/v2"
 )
 
-const MQTT_SERVER_USERSNAME = "brightpod"
+const MQTT_SERVER_USERNAME = "brightpod"
 const MQTT_SERVER_PASSWORD = "brightpod"
 const BROKER_PORT = 1883
 
@@ -26,7 +26,7 @@ func main() {
 	fmt.Println(aurora.Magenta(fmt.Sprintf("Starting MQTT service on port: %d", BROKER_PORT)))
 	server := mqtt.New(BROKER_PORT)
 	server.Start()
-	server.ConfigureUser(MQTT_SERVER_USERSNAME, MQTT_SERVER_PASSWORD)
+	server.ConfigureUser(MQTT_SERVER_USERNAME, MQTT_SERVER_PASSWORD)
 
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
@@ -34,7 +34,7 @@ func main() {
 	blowers := ttlcache.NewCache()
 
 	options := paho.NewClientOptions()
-	options.Username = MQTT_SERVER_USERSNAME
+	options.Username = MQTT_SERVER_USERNAME
 	options.Password = MQTT_SERVER_PASSWORD
 
 	client := hanami.New(fmt.Sprintf("tcp://localhost:%d", BROKER_PORT), options)
