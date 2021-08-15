@@ -50,7 +50,7 @@ fanpower=0
 
 
 status {
-    lastFanStatus(bool)
+    lastFanStatus(0-1)
     fanpower (0-12)
     unknown(rpm?)
     temperature (1-12.0)
@@ -63,9 +63,11 @@ status {
 }
 
 keepalive {
+    v=firmwareVersion
+    rv=firmewareRevision(not sure)
     s=currentFanStatus
     m=currentMode
-    v=firmwareVersion
-    rv=no idea
     fs=no idea
 }
+
+//{"s":0", "m":1,"v":47,"rv":4,"fs:4}

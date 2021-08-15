@@ -68,5 +68,6 @@ func (server *Server) Start() {
 	go func() {
 		<-sigs
 		mqttServer.Close()
+		log.Printf("mqtt server closed!")
 	}()
 }
