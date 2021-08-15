@@ -7,14 +7,14 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/logrusorgru/aurora"
 
 	paho "github.com/eclipse/paho.mqtt.golang"
 
 	"github.com/mochi-co/hanami"
-
-	"github.com/ReneKroon/ttlcache/v2"
+	cmap "github.com/orcaman/concurrent-map"
 )
 
 const MQTT_SERVER_USERNAME = "brightpod"
@@ -26,12 +26,15 @@ func main() {
 	fmt.Println(aurora.Magenta(fmt.Sprintf("Starting MQTT service on port: %d", BROKER_PORT)))
 	server := mqtt.New(BROKER_PORT)
 	server.Start()
+
+	// User configuration
 	server.ConfigureUser(MQTT_SERVER_USERNAME, MQTT_SERVER_PASSWORD)
+	server.ConfigureUser("mqttexplorer", "debug")
 
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
-	blowers := ttlcache.NewCache()
+	blowers := cmap.New()
 
 	options := paho.NewClientOptions()
 	options.Username = MQTT_SERVER_USERNAME
@@ -48,18 +51,25 @@ func main() {
 		username := in.Elements[0]
 		var blower *Blower
 
-		if cached, err := blowers.Get(username); err != ttlcache.ErrNotFound {
-			blower = cached.(*Blower)
+		if blowerFromMap, ok := blowers.Get(username); ok {
+			blower = blowerFromMap.(*Blower)
 		} else {
-			log.Printf("Blower with ID %s is now active.", username)
+			blower = &Blower{
+				fanPower:    6,
+				temperature: 25.0,
+				rpm:         6000, // default from their backend, no idea?
+			}
+			blowers.Set(username, blower)
+			log.Printf("Blower with ID %s is now monitored.", username)
 		}
 
 		blower.mode = in.Msg["m"].(float64)
-		blower.s = in.Msg["s"].(float64)
+		blower.isFanRunning = in.Msg["s"].(float64)
 		blower.firmwareVersion = in.Msg["v"].(float64)
-		blower.rv = in.Msg["rv"].(float64)
-		blowers.Set(username, blower)
-		log.Printf("Blower data: %s", blower)
+		blower.firmwareRevision = in.Msg["rv"].(float64)
+		blower.fs = in.Msg["fs"].(float64)
+		blower.lastKeepAlive = time.Now()
+		log.Printf("Blower data: mode=%f", blower.mode)
 	}
 
 	err = client.Subscribe("keepalives", "+/keep_alive", 0, false, keepAliveCallback)
@@ -74,13 +84,14 @@ func main() {
 }
 
 type Blower struct {
-	firmwareVersion float64
-	s               float64
-	mode            float64
-	rv              float64
-	// status1         *int     //1
-	// status2         *int     //6000
-	// status3         *int     //6000
-	// status4         *float32 //21.0
-	// status5         *int     //0
+	id               string
+	firmwareVersion  float64
+	firmwareRevision float64
+	isFanRunning     float64
+	mode             float64
+	fs               float64
+	fanPower         int
+	rpm              int
+	temperature      float64
+	lastKeepAlive    time.Time
 }

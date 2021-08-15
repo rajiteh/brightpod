@@ -27,6 +27,7 @@ func New(port int) Server {
 
 func (server *Server) ConfigureUser(username string, password string) {
 	server.users.Set(username, password)
+	log.Printf("Added new user: %s", username)
 }
 
 func (server *Server) Start() {
