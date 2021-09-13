@@ -17,6 +17,13 @@ steps:
           --remove-orphans \
           --renew-anon-volumes \
           --quiet-pull
+    environment:
+      BP_MQTT_USERNAME:
+        from_secret: BP_MQTT_USERNAME
+      BP_MQTT_PASSWORD:
+        from_secret: BP_MQTT_PASSWORD
+      BP_MQTT_SERVER_USERS:
+        from_secret: BP_MQTT_SERVER_USERS
 volumes:
   - name: dockersock
     host:

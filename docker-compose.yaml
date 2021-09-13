@@ -4,6 +4,11 @@ services:
     restart: unless-stopped
     build: .
     environment:
-      DNSDOCK_ALIAS: brightpod.lxc.ls90
+      - BP_MQTT_HOST=tcp://localhost:1883
+      - BP_MQTT_RUN_SERVER=1
+      - BP_MQTT_USERNAME
+      - BP_MQTT_PASSWORD
+      - BP_MQTT_SERVER_USERS
+      - DNSDOCK_ALIAS=brightpod.lxc.ls90
     networks:
       - mediastation
