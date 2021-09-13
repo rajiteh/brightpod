@@ -7,12 +7,12 @@ import (
 )
 
 type Blower struct {
-	ID               string
-	FirmwareVersion  float64
-	FirmwareRevision float64
+	id               string
+	firmwareVersion  float64
+	firmwareRevision float64
 	IsFanRunning     bool
-	mode             int
-	Fs               float64
+	mode             string
+	fs               float64
 	fanPower         int
 	rpm              int
 	temperature      float64
@@ -42,16 +42,25 @@ func ModeAsInt(mode string) (int, error) {
 	return 0, fmt.Errorf("Blower mode: %s does not exist", mode)
 }
 
-func New(id string, fanPower int, temperature float64, rpm int) (*Blower, error) {
+func New(id string, fanPower int, temperature float64, rpm int, firmwareVersion, firmwareRevision, fs float64) (*Blower, error) {
 	blower := &Blower{
-		ID:          id,
-		temperature: temperature,
-		rpm:         rpm,
+		id:               id,
+		firmwareVersion:  firmwareVersion,
+		firmwareRevision: firmwareRevision,
+		fs:               fs,
 	}
-	err := blower.SetFanPower(fanPower)
-	if err != nil {
+	if err := blower.SetFanPower(fanPower); err != nil {
 		return nil, err
 	}
+
+	if err := blower.SetRPM(rpm); err != nil {
+		return nil, err
+	}
+
+	if err := blower.SetTemperature(temperature); err != nil {
+		return nil, err
+	}
+
 	return blower, nil
 }
 
@@ -60,23 +69,37 @@ func (blower *Blower) GenerateStausPayload() string {
 	if blower.IsFanRunning {
 		fanRunningFlag = 1
 	}
+	mode, _ := ModeAsInt(blower.mode) // ignore errors because we know it's already set proper
 	payload := []string{
 		fmt.Sprintf("%d", fanRunningFlag),
 		fmt.Sprintf("%d", blower.fanPower),
 		fmt.Sprintf("%d", blower.rpm),
 		fmt.Sprintf("%.1f", blower.temperature),
-		fmt.Sprintf("%d", blower.mode),
+		fmt.Sprintf("%d", mode),
 	}
 	return strings.Join(payload, " ")
 }
 
-func (blower *Blower) SetMode(mode string) error {
-	if modeInt, err := ModeAsInt(mode); err == nil {
-		blower.mode = modeInt
+func (blower *Blower) SetModeFromString(mode string) error {
+	if _, err := ModeAsInt(mode); err == nil {
+		blower.mode = mode
 		return nil
 	} else {
 		return err
 	}
+}
+
+func (blower *Blower) SetModeFromInt(mode int) error {
+	if modeStr, err := ModeAsString(mode); err == nil {
+		blower.mode = modeStr
+		return nil
+	} else {
+		return err
+	}
+}
+
+func (blower *Blower) Mode() string {
+	return blower.mode
 }
 
 func (blower *Blower) SetFanPower(power int) error {
@@ -87,7 +110,7 @@ func (blower *Blower) SetFanPower(power int) error {
 	return nil
 }
 
-func (blower *Blower) SetFanRPM(rpm int) error {
+func (blower *Blower) SetRPM(rpm int) error {
 	if rpm > 6000 {
 		return fmt.Errorf("fan rpm must be less than 6000, recieved: %d", rpm)
 	}
@@ -95,6 +118,14 @@ func (blower *Blower) SetFanRPM(rpm int) error {
 	return nil
 }
 
-func (blower *Blower) Touch() {
+func (blower *Blower) SetTemperature(temp float64) error {
+	if temp > 30 || temp < 15 {
+		return fmt.Errorf("fan rpm must be less than 30 and more than 15, recieved: %f", temp)
+	}
+	blower.temperature = temp
+	return nil
+}
+
+func (blower *Blower) UpdateLastContact() {
 	blower.lastKeepAlive = time.Now()
 }

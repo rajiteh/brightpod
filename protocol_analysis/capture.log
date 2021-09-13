@@ -52,7 +52,7 @@ fanpower=0
 status {
     lastFanStatus(0-1)
     fanpower (0-12)
-    unknown(rpm?)
+    unknown(rpm?) // 6000 == ???!
     temperature (1-12.0)
     mode (
         0 = eco

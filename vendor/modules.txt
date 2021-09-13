@@ -1,0 +1,97 @@
+# github.com/ReneKroon/ttlcache/v2 v2.7.0
+## explicit
+# github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6
+## explicit
+# github.com/coreos/etcd v3.3.10+incompatible
+## explicit
+# github.com/coreos/go-etcd v2.0.0+incompatible
+## explicit
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+## explicit
+github.com/dgrijalva/jwt-go
+# github.com/eclipse/paho.mqtt.golang v1.3.5
+## explicit
+github.com/eclipse/paho.mqtt.golang
+github.com/eclipse/paho.mqtt.golang/packets
+# github.com/fsnotify/fsnotify v1.4.9
+github.com/fsnotify/fsnotify
+# github.com/gorilla/websocket v1.4.2
+github.com/gorilla/websocket
+# github.com/hashicorp/hcl v1.0.0
+github.com/hashicorp/hcl
+github.com/hashicorp/hcl/hcl/ast
+github.com/hashicorp/hcl/hcl/parser
+github.com/hashicorp/hcl/hcl/printer
+github.com/hashicorp/hcl/hcl/scanner
+github.com/hashicorp/hcl/hcl/strconv
+github.com/hashicorp/hcl/hcl/token
+github.com/hashicorp/hcl/json/parser
+github.com/hashicorp/hcl/json/scanner
+github.com/hashicorp/hcl/json/token
+# github.com/inconshreveable/mousetrap v1.0.0
+github.com/inconshreveable/mousetrap
+# github.com/joho/godotenv v1.3.0
+## explicit
+github.com/joho/godotenv
+# github.com/logrusorgru/aurora v2.0.3+incompatible
+## explicit
+github.com/logrusorgru/aurora
+# github.com/magiconair/properties v1.8.5
+github.com/magiconair/properties
+# github.com/mitchellh/mapstructure v1.4.1
+github.com/mitchellh/mapstructure
+# github.com/mochi-co/hanami v0.0.0-20190802101207-a617ce9ad9ab
+## explicit
+github.com/mochi-co/hanami
+# github.com/mochi-co/mqtt v1.0.0
+## explicit
+github.com/mochi-co/mqtt/server
+github.com/mochi-co/mqtt/server/internal/circ
+github.com/mochi-co/mqtt/server/internal/clients
+github.com/mochi-co/mqtt/server/internal/packets
+github.com/mochi-co/mqtt/server/internal/topics
+github.com/mochi-co/mqtt/server/listeners
+github.com/mochi-co/mqtt/server/listeners/auth
+github.com/mochi-co/mqtt/server/persistence
+github.com/mochi-co/mqtt/server/system
+# github.com/orcaman/concurrent-map v0.0.0-20210501183033-44dafcb38ecc
+## explicit
+github.com/orcaman/concurrent-map
+# github.com/pelletier/go-toml v1.9.3
+github.com/pelletier/go-toml
+# github.com/rs/xid v1.2.1
+github.com/rs/xid
+# github.com/spf13/afero v1.6.0
+github.com/spf13/afero
+github.com/spf13/afero/mem
+# github.com/spf13/cast v1.3.1
+github.com/spf13/cast
+# github.com/spf13/cobra v1.2.1
+## explicit
+github.com/spf13/cobra
+# github.com/spf13/jwalterweatherman v1.1.0
+github.com/spf13/jwalterweatherman
+# github.com/spf13/pflag v1.0.5
+github.com/spf13/pflag
+# github.com/spf13/viper v1.8.1
+## explicit
+github.com/spf13/viper
+# github.com/subosito/gotenv v1.2.0
+github.com/subosito/gotenv
+# github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8
+## explicit
+# github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77
+## explicit
+# golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
+golang.org/x/net/internal/socks
+golang.org/x/net/proxy
+# golang.org/x/sys v0.0.0-20210510120138-977fb7262007
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+# golang.org/x/text v0.3.5
+golang.org/x/text/transform
+golang.org/x/text/unicode/norm
+# gopkg.in/ini.v1 v1.62.0
+gopkg.in/ini.v1
+# gopkg.in/yaml.v2 v2.4.0
+gopkg.in/yaml.v2
