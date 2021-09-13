@@ -102,6 +102,10 @@ func (blower *Blower) Mode() string {
 	return blower.mode
 }
 
+func (blower *Blower) ID() string {
+	return blower.id
+}
+
 func (blower *Blower) SetFanPower(power int) error {
 	if power < 0 || power > 12 {
 		return fmt.Errorf("fan power must be postive and less than 12, recieved: %d", power)

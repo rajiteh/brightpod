@@ -3,6 +3,7 @@ package client
 import (
 	"brightpod/pkg/blower"
 	"brightpod/pkg/client/protocol"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -88,8 +89,8 @@ func handleKeepAlive(in *hanami.Payload) {
 }
 
 func publishBlowerStatus(client *hanami.Client, blwr *blower.Blower) {
-	// topic := fmt.Sprintf("%s/status", blwr.ID)
-	topic := ""
+	topic := fmt.Sprintf("%s/status", blwr.ID())
+	// topic := ""
 	payload := blwr.GenerateStausPayload()
 	client.Publish(topic, 0, false, payload)
 }
