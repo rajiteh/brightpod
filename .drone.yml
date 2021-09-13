@@ -1,0 +1,23 @@
+---
+kind: pipeline
+name: default
+steps:
+  - name: run
+    image: docker/compose:1.26.2
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - |-
+        docker-compose --project-name "brightpod" up \
+          --detach \
+          --force-recreate \
+          --build \
+          --remove-orphans \
+          --renew-anon-volumes \
+          --quiet-pull
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock

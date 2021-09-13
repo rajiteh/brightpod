@@ -1,0 +1,9 @@
+version: "2"
+services:
+  brightpod:
+    restart: unless-stopped
+    build: .
+    environment:
+      DNSDOCK_ALIAS: brightpod.lxc.ls90
+    networks:
+      - mediastation
