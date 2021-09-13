@@ -12,3 +12,7 @@ services:
       - DNSDOCK_ALIAS=brightpod.lxc.ls90
     networks:
       - mediastation
+networks:
+  mediastation:
+    external:
+      name: mediastation_ls90
