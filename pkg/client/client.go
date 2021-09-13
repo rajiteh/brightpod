@@ -108,7 +108,7 @@ func handleControl(in *hanami.Payload) {
 	blwr := obj.(*blower.Blower)
 
 	if command == "mode" {
-		// blwr.SetMode(value.(string))
+		blwr.SetModeFromString(value.(string))
 		publishBlowerStatus(client, blwr)
 	} else if command == "power" {
 		powerValuePercentage, ok := value.(float64)
